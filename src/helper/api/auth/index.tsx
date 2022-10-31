@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:8000';
+export const BASE_URL = 'http://localhost:8000';
 
 export interface USER_TYPE{
     employee_name: string;
@@ -13,7 +13,7 @@ export interface REGISTER_TYPE {
 }
 
 export const login_user = async (user: USER_TYPE) => {
-    const result = await axios.post(`${BASE_URL}/auth/login`, user)
+    const result = await axios.post(`${BASE_URL}/employee/login`, user)
     return result.data
 }
 

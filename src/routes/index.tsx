@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Router, Routes } from 'react-router-dom
 import LoginPage from '../pages/login/login';
 import RegisterPage from '../pages/register/register';
 import HomePage from '../pages/home/index';
+import Settings from '../pages/settings/index';
 import { useSelector } from 'react-redux';
 import SidebarLayout from '../components/Sidebar/index';
 import { getAccessToken } from '../helper/functions';
@@ -38,6 +39,8 @@ const Protected = (props: any) => {
 
 const AllRoutes = () => {
     const isLoggedIn = useSelector((state: any) => state.employeeState.isLoggedIn)
+    const userInfo = useSelector((state:any) => state.employeeState);
+    console.log({userInfo})
     
     return(
         <BrowserRouter>
@@ -47,6 +50,12 @@ const AllRoutes = () => {
                 <Route path="/" element={
                     <Protected isLoggedIn={isLoggedIn}>
                         <HomePage />
+                    </Protected>
+                }
+                />
+                <Route path="/settings" element={
+                    <Protected isLoggedIn={isLoggedIn}>
+                        <Settings />
                     </Protected>
                 }
                 />

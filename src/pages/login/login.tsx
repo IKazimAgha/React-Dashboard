@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import RoundInputField from '../../components/signupFields';
-import { ADD_TOKEN } from '../../constants/EmployeeActionType';
+import { ADD_TOKEN, EMPLOYEE_UPDATE } from '../../constants/EmployeeActionType';
 import { login_user } from '../../helper/api/auth';
-import {loginUser} from '../../redux/actions/employee';
+import { getAccessToken } from '../../helper/functions';
 
 const LoginPage = () => {
 
@@ -17,15 +17,32 @@ const LoginPage = () => {
         navigate("/register")
     }
 
+    const checkLoggedIn = async () => {
+        const token = await getAccessToken();
+        console.log(token)
+        if(!!token){
+            dispatch({type: ADD_TOKEN, payload: token})
+            navigate("/")
+        }
+    }
+
+    useEffect(() => {
+        checkLoggedIn();
+    }, [])
+
     const handleLogin = async () => {
         const user = {
             employee_name: email,
             password: passowrd
         }
-        const accessToken = await login_user(user);
-        dispatch({type: ADD_TOKEN, payload: accessToken});
-        await sessionStorage.setItem('access_token', accessToken);
-        navigate("/")
+        const employeeData = await login_user(user);
+        const { employee } = employeeData
+        if(!!employee){
+            dispatch({type: EMPLOYEE_UPDATE, payload: employee});
+            await localStorage.setItem('access_token', JSON.stringify(employee.access_token));
+            await localStorage.setItem('user_id', JSON.stringify(employee.id));
+            navigate("/")
+        }
     }
 
     return(
