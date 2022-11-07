@@ -4,3 +4,11 @@ export interface EmployeeInterface {
     department: {},
     designation: null
 }
+
+export interface AllEmployeeInterface {
+    id: string;
+    employee_name: string;
+    email: string;
+    password: string;
+    userRole: string
+}

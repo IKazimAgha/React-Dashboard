@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { EMPLOYEE_UPDATE } from '../../constants/EmployeeActionType';
 import { getEmployeeInfor } from '../../helper/api/employee';
 
 const HomePage = () => {
     const [employee, setEmployee] = useState<any>({})
     const userInfo = useSelector((state: any) => state.employeeState)
+    const dispatch = useDispatch();
     
     const getEmployee = async () => {
         const { employeeID } = userInfo;
@@ -15,13 +17,16 @@ const HomePage = () => {
         const iDValue: string | null = await localStorage.getItem('user_id')
         if(iDValue){
             const result = await getEmployeeInfor(Number(JSON.parse(iDValue)));
+            if(!!result){
+                dispatch({type: EMPLOYEE_UPDATE, payload: result})
+            }
             setEmployee(result);
         }
     }
 
     useEffect(() => {
         getEmployee();
-    }, [userInfo])
+    }, [])
 
     return(
         <div>

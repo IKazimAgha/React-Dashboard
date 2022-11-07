@@ -44,7 +44,8 @@ const employeeState = (state = initialState, payload: ActionPayload) => {
                 access_token: payload.payload?.access_token,
                 employeeID: payload.payload?.id,
                 email: payload.payload?.email,
-                userRole: payload.payload?.userRole
+                userRole: payload.payload?.userRole,
+                isLoggedIn: true
             }
         default:
             return {
