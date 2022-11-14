@@ -6,8 +6,6 @@ import Department from './department'
 const DepartmentPage = () => {
 
     const userRole = useSelector((state: any) => state.employeeState.userRole)
-
-    console.log({userRole})
     if(userRole === "admin"){
         return <Departments />
     }

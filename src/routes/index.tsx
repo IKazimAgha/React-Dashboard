@@ -42,8 +42,6 @@ const Protected = (props: any) => {
 const AllRoutes = () => {
     const isLoggedIn = useSelector((state: any) => state.employeeState.isLoggedIn)
     const userInfo = useSelector((state:any) => state.employeeState);
-    console.log({userInfo})
-    
     return(
         <BrowserRouter>
             <Routes>

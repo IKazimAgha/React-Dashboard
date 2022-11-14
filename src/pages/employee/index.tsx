@@ -8,7 +8,6 @@ const AllEmployee = () => {
 
     const fetchEmployee = async () => {
         const result = await getAllEmployee();
-        console.log({result})
         setEmployees(result);
     }
 

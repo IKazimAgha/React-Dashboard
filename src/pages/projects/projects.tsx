@@ -4,7 +4,6 @@ import CreateButton from '../../components/Buttons/createButton';
 const Projects = () => {
 
     const handleClick = () => {
-        console.log("sdasdsadasd")
     }
 
     return(

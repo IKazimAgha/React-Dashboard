@@ -19,7 +19,6 @@ const LoginPage = () => {
 
     const checkLoggedIn = async () => {
         const token = await getAccessToken();
-        console.log(token)
         if(!!token){
             dispatch({type: ADD_TOKEN, payload: token})
             navigate("/")
