@@ -1,13 +1,26 @@
 import dayjs from 'dayjs';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { getEmpProjectInfo } from '../../helper/api/empProject';
 import { EmpInterface } from '../../interfaces/empProjectInterface';
+import { ProjectHistory } from '../../interfaces/historyInterface';
+import { Project } from '../../interfaces/projectInterface';
 
 const ProfilePreview = (props: any) => {
     
     const {employee} = props;
 
-    const { email, employee_name, isActive, created_at }: EmpInterface = employee
+    const { email, employee_name, isActive, created_at, id }: EmpInterface = employee
+    const [empDetails, setEmpDetails] = useState<EmpInterface>();
 
+    const getProjectHistory = async () => {
+        const result = await getEmpProjectInfo(Number(id))
+        setEmpDetails(result)
+    }
+
+    useEffect(() => {
+        getProjectHistory();
+    }, [employee])
+    
     return(
 <div className="bg-gray-100">
     <div className="container mx-auto my-5 p-5">
@@ -20,7 +33,7 @@ const ProfilePreview = (props: any) => {
                             alt="" />
                     </div>
                     <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{employee_name}</h1>
-                    <h3 className="text-gray-600 font-lg text-semibold leading-6">Owner at His Company Inc.</h3>
+                    {/* <h3 className="text-gray-600 font-lg text-semibold leading-6">Owner at His Company Inc.</h3> */}
                     <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">Lorem ipsum dolor sit amet
                         consectetur adipisicing elit.
                         Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt</p>
@@ -55,28 +68,8 @@ const ProfilePreview = (props: any) => {
                     <div className="text-gray-700">
                         <div className="grid md:grid-cols-2 text-sm">
                             <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">First Name</div>
-                                <div className="px-4 py-2">Jane</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Last Name</div>
-                                <div className="px-4 py-2">Doe</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Gender</div>
-                                <div className="px-4 py-2">Male</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Contact No.</div>
-                                <div className="px-4 py-2">+11 998001001</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Current Address</div>
-                                <div className="px-4 py-2">Beech Creek, PA, Pennsylvania</div>
-                            </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Permanant Address</div>
-                                <div className="px-4 py-2">Arlington Heights, IL, Illinois</div>
+                                <div className="px-4 py-2 font-semibold">Full Name</div>
+                                <div className="px-4 py-2">{employee_name}</div>
                             </div>
                             <div className="grid grid-cols-2">
                                 <div className="px-4 py-2 font-semibold">Email.</div>
@@ -84,21 +77,17 @@ const ProfilePreview = (props: any) => {
                                     <a className="text-blue-800" href="mailto:jane@example.com">{email}</a>
                                 </div>
                             </div>
-                            <div className="grid grid-cols-2">
-                                <div className="px-4 py-2 font-semibold">Birthday</div>
-                                <div className="px-4 py-2">Feb 06, 1998</div>
-                            </div>
                         </div>
                     </div>
-                    <button
+                    {/* <button
                         className="block w-full text-blue-800 text-sm font-semibold rounded-lg hover:bg-gray-100 focus:outline-none focus:shadow-outline focus:bg-gray-100 hover:shadow-xs p-3 my-4">Show
-                        Full Information</button>
+                        Full Information</button> */}
                 </div>
                
                 <div className="my-4"></div>
                  <div className="bg-white p-3 shadow-sm rounded-sm">
 
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-3">
                         <div>
                             <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
                                 <span className="text-green-500">
@@ -108,24 +97,21 @@ const ProfilePreview = (props: any) => {
                                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </span>
-                                <span className="tracking-wide">Experience</span>
+                                <span className="tracking-wide">Projects</span>
                             </div>
                             <ul className="list-inside space-y-2">
                                 <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
-                                </li>
-                                <li>
-                                    <div className="text-teal-600">Owner at Her Company Inc.</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
+                                    {/* <div className="text-teal-600">{empDetails?.project[0]?.project_name}.</div> */}
+                                    {empDetails?.project && 
+                                    empDetails.project.map((item: Project, index: number) => <div key={item.id} className="text-teal-600">
+                                        {item?.project_name}.
+                                            <div className="text-gray-500 text-xs">
+                                                {dayjs(empDetails?.history[index].joined_at).format('DD/MM/YYYY')} - {dayjs(empDetails?.history[index].left_at).format('DD/MM/YYYY')}
+                                            </div>
+                                        </div>
+                                        )
+                                    }
+                                    
                                 </li>
                             </ul>
                         </div>
@@ -134,23 +120,34 @@ const ProfilePreview = (props: any) => {
                                 <span className="text-green-500">
                                     <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke="currentColor">
-                                        <path fill="#fff" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                        <path fill="#fff"
-                                            d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" />
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                     </svg>
                                 </span>
-                                <span className="tracking-wide">Education</span>
+                                <span className="tracking-wide">Department</span>
                             </div>
                             <ul className="list-inside space-y-2">
                                 <li>
-                                    <div className="text-teal-600">Masters Degree in Oxford</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
+                                    <div className="text-teal-600">{empDetails?.department?.department_name}.</div>
+                                    <div className="text-gray-500 text-xs">{dayjs(empDetails?.department?.created_at).format('DD/MM/YYYY')} - Now</div>
                                 </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 mb-3">
+                                <span className="text-green-500">
+                                    <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                    </svg>
+                                </span>
+                                <span className="tracking-wide">Designation</span>
+                            </div>
+                            <ul className="list-inside space-y-2">
                                 <li>
-                                    <div className="text-teal-600">Bachelors Degreen in LPU</div>
-                                    <div className="text-gray-500 text-xs">March 2020 - Now</div>
+                                    <div className="text-teal-600">{empDetails?.designation?.name}.</div>
+                                    <div className="text-gray-500 text-xs">Grade - {empDetails?.designation?.grade}</div>
                                 </li>
                             </ul>
                         </div>

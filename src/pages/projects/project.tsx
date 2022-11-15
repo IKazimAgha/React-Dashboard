@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import CreateButton from '../../components/Buttons/createButton';
-import ProjectTable from '../../components/Tables/empProjectTable';
 import { getEmpProjectInfo } from '../../helper/api/empProject/index'
 import EmpInterface from '../../interfaces/empProjectInterface';
+import ProjectDisplayCard from './card/index';
 
 const Project = (props: any) => {
 
@@ -28,7 +27,7 @@ const Project = (props: any) => {
     return(
         <div className="w-full">
             {empProject !== undefined && <div>
-                <ProjectTable employee={empProject} searchBar={searchBar} />
+                <ProjectDisplayCard employee={empProject} />
             </div>}
         </div>
     )

@@ -30,6 +30,8 @@ const HomePage = () => {
         getEmployee();
     }, [])
 
+    console.log({employee})
+
     return(
         <div>
             <header>
