@@ -21,3 +21,12 @@ export interface EmpInterface {
     history: ProjectHistory[];
     userRole: string; 
 }
+
+export interface ProjectInterface {
+    created_at: string;
+    id: string;
+    project_name: string;
+    updated_at: string;
+    employee: EmpInterface;
+    history: History[]
+}

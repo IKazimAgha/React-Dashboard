@@ -1,12 +1,14 @@
+import dayjs from 'dayjs';
 import React from 'react';
-import { AllEmployeeInterface } from '../../interfaces/employeeInterface';
+import { Project } from '../../interfaces/projectInterface';
 
 
+const ProjectTable = (props: any) => {
 
-const StripTable = (props: any) => {
-    const {employee} = props;
+    const {project, handleClick} = props;
+
     return(
-<div className="mx-auto">
+        <div className="mx-auto">
 
 	<div className="relative overflow-x-auto shadow-md sm:rounded-lg">
 		<div className="p-4">
@@ -27,57 +29,33 @@ const StripTable = (props: any) => {
 				<thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
 					<tr>
 						<th scope="col" className="px-6 py-3">
-							Employee ID
+							Project ID
 						</th>
 						<th scope="col" className="px-6 py-3">
-							Employee name
+							Project Name
 						</th>
 						<th scope="col" className="px-6 py-3">
-							Employee email
+							Created At
 						</th>
 						<th scope="col" className="px-6 py-3">
-							Projects
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Role
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Department
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Designation
-						</th>
-						<th scope="col" className="px-6 py-3">
-							<span className="sr-only">Edit</span>
+							Edit
 						</th>
 					</tr>
 				</thead>
                 <tbody>
-                {employee?.map((item: AllEmployeeInterface) => {
-                        const { email, employee_name, id, userRole, department, designation } = item;
+                {project?.map((item: Project) => {
+                        const { project_name, id, created_at } = item;
                         return(
-                                <tr>
+                                <tr key={id} onClick={() => handleClick(id)}>
                                     <td className="px-6 py-3">
                                         {id}
                                     </td>
                                     <td className="px-6 py-3">
-                                        {employee_name}
+                                        {project_name}
                                     </td>
                                     <td className="px-6 py-3">
-                                        {email}
+                                        {dayjs(created_at).format('DD/MM/YYYY')}
                                     </td>
-                                    <td className="px-6 py-3">
-                                        project
-                                    </td>
-                                    <td className="px-6 py-3">
-                                        {userRole}
-                                    </td>
-									<td>
-										{department?.department_name}
-									</td>
-									<td>
-										{designation?.name} - {designation?.grade}
-									</td>
                                 </tr>
                         )
                     })}
@@ -88,4 +66,4 @@ const StripTable = (props: any) => {
     )
 }
 
-export default StripTable;
+export default ProjectTable

@@ -20,32 +20,7 @@ const EmpProjectTable = (props: any) => {
                     {email}
                 </td>
                 <td>
-                    <ul className="">
-                        {project.map((item) => <li className="my-5">{item.project_name},</li>)}
-                    </ul>
-                </td>
-                <td>
                     {userRole}
-                </td>
-                <td>
-                    <ul>
-                        {history.map((item) => <li className="my-5">{item.reviews}</li>)}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {history.map((item) => <li className="my-5">{item.comments}</li>)}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {history.map((item) => <li className="my-5">{dayjs(item.joined_at).format('DD/MM/YYYY')}</li>)}
-                    </ul>
-                </td>
-                <td>
-                    <ul>
-                        {history.map((item) => <li className="my-5">{dayjs(item.left_at).format('DD/MM/YYYY')}</li>)}
-                    </ul>
                 </td>
             </tr>
         )
@@ -84,22 +59,7 @@ const EmpProjectTable = (props: any) => {
 							Employee email
 						</th>
 						<th scope="col" className="px-6 py-3">
-							Projects
-						</th>
-						<th scope="col" className="px-6 py-3">
 							Role
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Performance Review
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Comments
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Joined At
-						</th>
-						<th scope="col" className="px-6 py-3">
-							Left At
 						</th>
 						<th scope="col" className="px-6 py-3">
 							<span className="sr-only">Edit</span>
@@ -107,52 +67,29 @@ const EmpProjectTable = (props: any) => {
 					</tr>
 				</thead>
                 <tbody>
-                {/* {(typeof employee !== "object") || employee?.map((item: AllEmployeeInterface) => {
-                        const { email, employee_name, id, userRole } = item;
-                        return(
+                    {
+                        employee&&
+                        employee.map((item: any, index: number) => {
+                            const {id, employee_name, email, userRole}: EmpInterface = item;
+                            return (
                                 <tr>
-                                    <td>
+                                    <td className="px-6 py-3">
                                         {id}
                                     </td>
-                                    <td>
+                                    <td className="px-6 py-3">
                                         {employee_name}
                                     </td>
-                                    <td>
+                                    <td className="px-6 py-3">
                                         {email}
                                     </td>
-                                    <td>
-                                        project
-                                    </td>
-                                    <td>
+                                    <td className="px-6 py-3">
                                         {userRole}
                                     </td>
                                 </tr>
-                        )
-                    })}
-                    {(typeof employee === "object") || employee?.map((item: AllEmployeeInterface) => {
-                            const { email, employee_name, id, userRole } = item;
-                            return(
-                                    <tr>
-                                        <td>
-                                            {id}
-                                        </td>
-                                        <td>
-                                            {employee_name}
-                                        </td>
-                                        <td>
-                                            {email}
-                                        </td>
-                                        <td>
-                                            project
-                                        </td>
-                                        <td>
-                                            {userRole}
-                                        </td>
-                                    </tr>
                             )
-                        })} */}
-                        <DisplayObject />
-                    </tbody>
+                        })
+                    }
+                </tbody>
 			</table>
 		</div>
 	</div>

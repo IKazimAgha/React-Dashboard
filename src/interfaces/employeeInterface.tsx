@@ -1,3 +1,6 @@
+import { Department } from "./departmentInterface";
+import { Designation } from "./designationInterface";
+
 export interface EmployeeInterface {
     access_token: string,
     created_at: string;
@@ -10,5 +13,7 @@ export interface AllEmployeeInterface {
     employee_name: string;
     email: string;
     password: string;
-    userRole: string
+    userRole: string;
+    department: Department;
+    designation: Designation;
 }
