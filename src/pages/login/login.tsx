@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import RoundInputField from '../../components/signupFields';
-import { ADD_TOKEN } from '../../constants/EmployeeActionType';
+import { ADD_TOKEN, EMPLOYEE_UPDATE } from '../../constants/EmployeeActionType';
 import { login_user } from '../../helper/api/auth';
-import {loginUser} from '../../redux/actions/employee';
+import { getAccessToken } from '../../helper/functions';
 
 const LoginPage = () => {
 
@@ -17,15 +17,32 @@ const LoginPage = () => {
         navigate("/register")
     }
 
-    const handleLogin = async () => {
+    const checkLoggedIn = async () => {
+        const token = await getAccessToken();
+        if(!!token){
+            dispatch({type: ADD_TOKEN, payload: token})
+            navigate("/")
+        }
+    }
+
+    useEffect(() => {
+        checkLoggedIn();
+    }, [])
+
+    const handleLogin = async (e: Event) => {
+        e.preventDefault()
         const user = {
             employee_name: email,
             password: passowrd
         }
-        const accessToken = await login_user(user);
-        dispatch({type: ADD_TOKEN, payload: accessToken});
-        await sessionStorage.setItem('access_token', accessToken);
-        navigate("/")
+        const employeeData = await login_user(user);
+        const { employee } = employeeData
+        if(!!employee){
+            dispatch({type: EMPLOYEE_UPDATE, payload: employee});
+            await localStorage.setItem('access_token', JSON.stringify(employee.access_token));
+            await localStorage.setItem('user_id', JSON.stringify(employee.id));
+            navigate("/")
+        }
     }
 
     return(
@@ -51,7 +68,7 @@ const LoginPage = () => {
                       </div>
                       <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
                   </div>
-                  <button type="submit" onClick={() => handleLogin()} className="w-full text-gray bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
+                  <button type="submit" onClick={(e: any) => handleLogin(e)} className="w-full text-gray bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Sign in</button>
                   <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                       Don’t have an account yet? 
                       <a onClick={() => navigateRegister()} className="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>

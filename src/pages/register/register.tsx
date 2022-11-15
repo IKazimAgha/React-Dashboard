@@ -22,7 +22,6 @@ const RegisterPage = () => {
             password: password
         }
         const success = await register_user(user);
-        console.log({success})
         navigate("/")
     }
 
