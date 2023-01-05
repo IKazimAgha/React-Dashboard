@@ -10,6 +10,7 @@ import { getAccessToken } from '../helper/functions';
 import SideBarLayout from '../components/Sidebar/index';
 import DepartmentPage from '../pages/department/index';
 import ProjectPages from '../pages/projects/index';
+import ResignPage from '../pages/resign/index';
 
 const Protected = (props: any) => {
     const {isLoggedIn, children} = props;
@@ -53,7 +54,7 @@ const AllRoutes = () => {
                     </Protected>
                 }
                 />
-                <Route path="/settings" element={
+                <Route path="/profile" element={
                     <Protected isLoggedIn={isLoggedIn}>
                         <Settings />
                     </Protected>
@@ -74,6 +75,12 @@ const AllRoutes = () => {
                 <Route path="/department" element={
                     <Protected isLoggedIn={isLoggedIn}>
                         <DepartmentPage />
+                    </Protected>
+                }
+                />
+                <Route path="/resign" element={
+                    <Protected isLoggedIn={isLoggedIn}>
+                        <ResignPage />
                     </Protected>
                 }
                 />

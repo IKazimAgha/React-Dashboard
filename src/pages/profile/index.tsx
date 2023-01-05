@@ -1,5 +1,7 @@
 import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router';
+import CreateButton from '../../components/Buttons/createButton';
 import { getEmpProjectInfo } from '../../helper/api/empProject';
 import { EmpInterface } from '../../interfaces/empProjectInterface';
 import { ProjectHistory } from '../../interfaces/historyInterface';
@@ -7,6 +9,7 @@ import { Project } from '../../interfaces/projectInterface';
 
 const ProfilePreview = (props: any) => {
     
+   const navigate = useNavigate();
     const {employee} = props;
 
     const { email, employee_name, isActive, created_at, id }: EmpInterface = employee
@@ -33,7 +36,6 @@ const ProfilePreview = (props: any) => {
                             alt="" />
                     </div>
                     <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{employee_name}</h1>
-                    {/* <h3 className="text-gray-600 font-lg text-semibold leading-6">Owner at His Company Inc.</h3> */}
                     <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">Lorem ipsum dolor sit amet
                         consectetur adipisicing elit.
                         Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt</p>
@@ -55,15 +57,20 @@ const ProfilePreview = (props: any) => {
             </div>
             <div className="w-full md:w-9/12 mx-2 h-64">
                 <div className="bg-white p-3 shadow-sm rounded-sm">
-                    <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
-                        <span className="text-green-500">
-                            <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        </span>
-                        <span className="tracking-wide">About</span>
+                    <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8 justify-between">
+                        <div className="flex items-center space-x-2 font-semibold text-gray-900 leading-8">
+                            <span className="text-green-500">
+                                <svg className="h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                            </span>
+                            <span className="tracking-wide">About</span>
+                        </div>
+                        <div>
+                            <CreateButton title="Edit" onHandleClick={() => navigate("/profile")} />
+                        </div>
                     </div>
                     <div className="text-gray-700">
                         <div className="grid md:grid-cols-2 text-sm">
